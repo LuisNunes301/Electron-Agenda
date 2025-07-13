@@ -1,0 +1,20 @@
+{
+    "appId": "com.seunome.agendatelefonica",
+    "productName": "Agenda Telefônica",
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+     "files": [
+    "index.html",
+    "main.js",
+    "preload.js",
+    "renderer/**",
+    "assets/**",
+    "sql-wasm.wasm"
+  ],
+    "icon": "./desktopIcon.png",
+    "win": {
+      "target": ["portable", "msi"]
+    }
+  }

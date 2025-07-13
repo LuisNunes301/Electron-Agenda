@@ -1,0 +1,80 @@
+<!-- renderer/index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="theme-color" content="#EEE"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Agenda</title>
+  <link href="https://cdn.jsdelivr.net/npm/windows-ui-fabric@4.0.1/dist/config/app-config.css" rel="stylesheet" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/windows-ui-fabric@4.0.1/dist/windows-ui.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/windows-ui-fabric@4.0.1/dist/icons/winui-icons.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="win-nav-bar">
+  <div class="win-nav-bar-left">
+    <h1 class="text-xl font-bold">Agenda</h1>
+  </div>
+  <div class="win-nav-bar-right" style="gap: 10px;">
+    <button id="btnNovo" class="win-button btn-primary">+ Novo Contato</button>
+    <input list="sugestoes" type="text" id="filtro" class="win-textbox" placeholder="Buscar por nome..." />
+    <datalist id="sugestoes"></datalist>
+    <button id="btnImportarExcel" class="win-button btn-secondary">📁 Importar Excel</button>
+    
+  </div>
+
+
+</header>
+
+  <main>
+    <table id="tabelaContatos">
+      <thead>
+        <tr>
+          <th>Fornecedor</th>
+          <th>DDD</th>
+          <th>Telefone</th>
+          <th>Telefone Coml</th>
+          <th>Celular</th>
+          <th>Contato</th>
+          <th>Email</th>
+          <th>Observações</th>
+          <th>Tipo 1</th>
+          <th>Tipo 2</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <aside id="painel">
+    <h2 id="painelTitulo">Novo Contato</h2>
+    <form id="formulario">
+  <input type="hidden" name="id" />
+  <input type="text" id="nome" name="nome" placeholder="Nome" class="win-textbox" required />
+  <input type="number" id="ddd" name="ddd" placeholder="DDD" class="win-textbox" />
+  <input type="text" id="telefone" name="telefone" placeholder="Telefone" class="win-textbox" />
+  <input type="text" id="comercial" name="comercial" placeholder="Telefone Comercial" class="win-textbox" />
+  <input type="text" id="celular" name="celular" placeholder="Celular" class="win-textbox" />
+  <input type="text" id="contato" name="contato" placeholder="Contato Responsável" class="win-textbox" />
+  <input type="text" id="tipo" name="tipo" placeholder="Tipo 1" class="win-textbox" />
+  <input type="text" id="tipo2" name="tipo2" placeholder="Tipo 2" class="win-textbox" />
+  <input type="email" id="email" name="email" placeholder="Email" class="win-textbox" />
+  <textarea id="observacao" name="observacao" placeholder="Observações" class="win-textbox"></textarea>
+
+  <button type="submit" class="win-button btn-success">Salvar</button>
+  <button type="button" id="cancelar" class="win-button btn-secondary">Cancelar</button>
+</form>
+  
+  </aside>
+
+  <script src="renderer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/windows-ui-fabric@4.0.1/dist/windows-ui.min.js" crossorigin="anonymous"></script>
+</div>
+</body>
+
+</html>
