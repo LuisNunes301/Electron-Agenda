@@ -2,30 +2,50 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const initSqlJs = require('sql.js');
-const {dialog} = require('electron');
+const { dialog } = require('electron');
 const XLSX = require('xlsx');
+const isDev = require('electron-is-dev');
+
+if (!app.isPackaged) {
+  try {
+    require('electron-reload')(__dirname, {
+      electron: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'electron'),
+      awaitWriteFinish: true,
+      hardResetMethod: 'exit'
+    });
+    console.log("🔁 electron-reload ativado");
+  } catch (err) {
+    console.warn("⚠️ electron-reload não está ativo (modo produção)");
+  }
+}
+
 let db;
+
 
 async function createWindow() {
   const win = new BrowserWindow({
     width: 1000,
     height: 700,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,
-      nodeIntegration: false
-    }
+   webPreferences: {
+  preload: isDev
+    ? path.join(__dirname, '../preload/preload.js')
+    : path.join(__dirname, 'preload.js'),
+  contextIsolation: true,
+  nodeIntegration: false
+}
   });
 
   await initDatabase();
-win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+  win.loadFile(path.join(__dirname, '../ui/index.html'));
 }
 
 async function initDatabase() {
   try {
-    const SQL = await initSqlJs({
-      locateFile: file => path.join(__dirname, 'sql-wasm.wasm')
-    });
+    const wasmPath = isDev
+  ? path.join(__dirname, '..', '..', 'db', 'sql-wasm.wasm')
+  : path.join(process.resourcesPath, 'db', 'sql-wasm.wasm');
+
+const SQL = await initSqlJs({ locateFile: () => wasmPath });
 
     const dbPath = path.join(app.getPath('userData'), 'agenda.sqlite');
 
@@ -164,5 +184,25 @@ ipcMain.handle('lerExcel', async (event, filePath) => {
     return [];
   }
 });
+ipcMain.handle('exportarParaExcel', async () => {
+  try {
+    const stmt = db.prepare('SELECT * FROM contatos');
+    const rows = [];
+    while (stmt.step()) {
+      rows.push(stmt.getAsObject());
+    }
 
+    const ws = XLSX.utils.json_to_sheet(rows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Contatos");
+
+    const exportPath = path.join(app.getPath('desktop'), 'contatos_exportados.xlsx');
+    XLSX.writeFile(wb, exportPath);
+
+    return exportPath;
+  } catch (err) {
+    console.error("Erro ao exportar:", err);
+    return null;
+  }
+});
 app.whenReady().then(createWindow);

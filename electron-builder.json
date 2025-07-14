@@ -1,20 +1,28 @@
 {
-    "appId": "com.seunome.agendatelefonica",
-    "productName": "Agenda Telefônica",
-    "directories": {
-      "buildResources": "build",
-      "output": "dist"
-    },
-     "files": [
-    "index.html",
-    "main.js",
-    "preload.js",
-    "renderer/**",
-    "assets/**",
-    "sql-wasm.wasm"
-  ],
-    "icon": "./desktopIcon.png",
-    "win": {
-      "target": ["portable", "msi"]
-    }
+  "appId": "com.seunome.agendatelefonica",
+  "productName": "Agenda Telefônica",
+  "directories": {
+    "buildResources": "build",
+    "output": "dist"
+  },
+  "files": [
+  "src/electron/main.js",
+  "src/preload/preload.js",
+  "src/ui/**/*",
+  "db/**/*"
+],
+"extraResources": [
+  {
+    "from": "db",
+    "to": "db",
+    "filter": ["**/*.wasm"]
   }
+],
+  "icon": "build/desktopIcon.png",
+  "win": {
+    "target": [
+      "portable",
+      "msi"
+    ]
+  }
+}

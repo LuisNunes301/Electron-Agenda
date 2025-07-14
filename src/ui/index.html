@@ -11,7 +11,8 @@
   <link href="https://cdn.jsdelivr.net/npm/windows-ui-fabric@4.0.1/dist/config/app-config.css" rel="stylesheet" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/windows-ui-fabric@4.0.1/dist/windows-ui.min.css" rel="stylesheet" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/windows-ui-fabric@4.0.1/dist/icons/winui-icons.min.css" rel="stylesheet" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css" />
+
 </head>
 
 <body>
@@ -22,9 +23,11 @@
   <div class="win-nav-bar-right" style="gap: 10px;">
     <button id="btnNovo" class="win-button btn-primary">+ Novo Contato</button>
     <input list="sugestoes" type="text" id="filtro" class="win-textbox" placeholder="Buscar por nome..." />
-    <datalist id="sugestoes"></datalist>
+    <ul id="sugestoes"></ul>
     <button id="btnImportarExcel" class="win-button btn-secondary">📁 Importar Excel</button>
-    
+    <button id="btnExportarExcel" class="win-button btn-secondary">⬇ Exportar Excel</button>
+
+
   </div>
 
 
@@ -71,10 +74,9 @@
 </form>
   
   </aside>
-
-  <script src="renderer.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/windows-ui-fabric@4.0.1/dist/windows-ui.min.js" crossorigin="anonymous"></script>
 </div>
+    <script src="renderer.js"></script>
 </body>
 
 </html>

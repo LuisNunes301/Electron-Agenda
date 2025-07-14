@@ -21,20 +21,6 @@ header h1 {
   font-size: 24px;
 }
 
-#btnNovo {
-  /* background: #27ae60; */
-  /* color: white; */
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-#btnNovo:hover {
-  background: #219150;
-}
-
 #filtro {
   padding: 6px;
   border-radius: 4px;
@@ -44,6 +30,7 @@ header h1 {
 }
 
 /* Tabela */
+
 main {
   padding: 20px;
   overflow-x: auto;
@@ -66,45 +53,8 @@ th {
 tr:nth-child(even) {
   background: #f2f2f2;
 }
+/* Tabela fim*/
 
-.botoes-acoes {
-  display: flex;
-  gap: 6px;
-}
-
-.btn-icon {
-  background: transparent;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.2s;
-}
-/* to por ca */
-
-
-
-.btn-icon:hover {
-  background-color: rgba(0, 0, 0, 0.05); /* leve sombra ao passar o mouse */
-}
-
-.btn-icon i {
-  font-size: 18px;            /* ícone menor */
-  opacity: 0.6;               /* translucidez */
-  transition: opacity 0.2s;
-}
-
-.btn-icon:hover i {
-  opacity: 1;                 /* mais visível ao passar o mouse */
-}
-
-.btn-icon.blue i {
-  color: #0078D7; /* cor típica do botão Windows azul */
-}
-
-.btn-icon.red i {
-  color: #E81123; /* cor de erro padrão da Microsoft */
-}
 
 
 /* Painel lateral */
@@ -117,7 +67,7 @@ tr:nth-child(even) {
   background: white;
   border-left: 1px solid #ccc;
   padding: 20px;
-  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
   transition: right 0.3s ease;
   z-index: 1000;
 }
@@ -130,20 +80,35 @@ tr:nth-child(even) {
   margin-top: 0;
   color: #2c3e50;
 }
+/* Painel lateral fim*/
 
-form input, form textarea {
+/* forms */
+form input,
+form textarea {
   width: 100%;
   padding: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   box-sizing: border-box;
   border-radius: 4px;
   border: 1px solid #ccc;
+  font-size: 14px;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 40px;
 }
 
 form textarea {
-  resize: vertical;
-  min-height: 60px;
+  white-space: pre-wrap;        
+  word-break: break-word;      
+  resize: vertical;             
+  height: auto;                 
+  min-height: 60px;            
+  max-height: 150px;           
+  overflow-y: auto; 
 }
+/* forms fim*/
 
 form button[type="submit"] {
   background: #27ae60;
@@ -161,7 +126,7 @@ form button[type="submit"]:hover {
 }
 
 form button#cancelar {
-  /* background: #bdc3c7; */
+  background: #bdc3c7;
   /* color: #2c3e50; */
   margin-top: 5px;
   padding: 10px;
@@ -170,12 +135,13 @@ form button#cancelar {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .search-wrapper {
   position: relative;
   width: 300px;
 }
 
- #sugestoes {
+#sugestoes {
   position: absolute;
   top: 100%;
   left: 0;
@@ -200,13 +166,58 @@ form button#cancelar {
 }
 
 
- #filtro {
+#filtro {
   padding: 8px;
   border-radius: 5px 0 0 5px;
   border: 1px solid #ccc;
   outline: none;
   width: 200px;
   margin-right: -5px;
+}
+
+
+#tabelaContatos {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+#tabelaContatos th,
+#tabelaContatos td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+  vertical-align: top;
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+#tabelaContatos th:nth-child(8), 
+#tabelaContatos td:nth-child(8) {
+  width: 250px;
+}
+
+#tabelaContatos th:nth-child(11), /* Ações */
+#tabelaContatos td:nth-child(11) {
+  width: 90px;
+  text-align: center;
+}
+
+
+/* botoes */
+#btnNovo {
+  background: #27ae60;
+  /* color: white; */
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#btnNovo:hover {
+  background: #0e7438;
 }
 
 #btnImportarExcel {
@@ -219,6 +230,62 @@ form button#cancelar {
   margin: 5px;
 }
 
+
 #btnImportarExcel:hover {
   background-color: #e0e0e0;
 }
+
+#btnExportarExcel {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  /* background-color: #f0f0f0; */
+  border-radius: 5px 5px 5px 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin: 5px;
+}
+
+
+#btnExportarExcel:hover {
+  background-color: #e0e0e0;
+}
+
+/* botoes de acao */
+.botoes-acoes {
+  
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.btn-icon:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.btn-icon i {
+  font-size: 18px;
+
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.btn-icon:hover i {
+  opacity: 1;
+}
+
+.btn-icon.blue i {
+  color: #0078D7;
+}
+
+.btn-icon.red i {
+  color: #E81123;
+}
+/* botoes de acao fim */

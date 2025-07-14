@@ -157,7 +157,10 @@ function fecharPainel() {
   form.reset();
 }
 
-
+document.getElementById('btnExportarExcel').onclick = async () => {
+  const path = await window.api.exportarParaExcel();
+  if (path) alert(`Exportado para: ${path}`);
+};
 
 
 carregarContatos();

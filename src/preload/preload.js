@@ -9,6 +9,8 @@ contextBridge.exposeInMainWorld('api', {
   updateContato: (contato) => ipcRenderer.invoke('updateContato', contato),
   escolherArquivoExcel: () => ipcRenderer.invoke('escolherArquivoExcel'),
   importExcel: (filePath) => ipcRenderer.invoke('lerExcel', filePath),
+  exportarParaExcel: () => ipcRenderer.invoke('exportarParaExcel'),
+
 });
 
 contextBridge.exposeInMainWorld('electron', {
