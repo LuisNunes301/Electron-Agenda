@@ -30,7 +30,7 @@ async function createWindow() {
   });
 
   await initializeApp();
-  win.loadFile(path.join(__dirname, '../ui/index.html'));
+  win.loadFile(path.join(__dirname, '../renderer/index.html'));
 }
 
 app.whenReady().then(createWindow);

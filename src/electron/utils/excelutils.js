@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const XLSX = require('xlsx');
-const { app } = require('electron');
+const { app,dialog } = require('electron');
 
 function lerExcel(filePath) {
   try {
@@ -28,8 +28,17 @@ function lerExcel(filePath) {
   }
 }
 
-function exportarParaExcel(db) {
+async function exportarParaExcel(db) {
   try {
+    // Abrir diálogo para o usuário escolher onde salvar
+    const { canceled, filePath } = await dialog.showSaveDialog({
+      title: 'Salvar como Excel',
+      defaultPath: path.join(app.getPath('desktop'), 'contatos_exportados.xlsx'),
+      filters: [{ name: 'Excel', extensions: ['xlsx'] }]
+    });
+
+    if (canceled || !filePath) return null;
+
     const stmt = db.prepare('SELECT * FROM contatos');
     const rows = [];
     while (stmt.step()) {
@@ -39,16 +48,15 @@ function exportarParaExcel(db) {
     const ws = XLSX.utils.json_to_sheet(rows);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Contatos");
+    XLSX.writeFile(wb, filePath);
 
-    const exportPath = path.join(app.getPath('desktop'), 'contatos_exportados.xlsx');
-    XLSX.writeFile(wb, exportPath);
-
-    return exportPath;
+    return filePath;
   } catch (err) {
     console.error("Erro ao exportar:", err);
     return null;
   }
 }
+
 
 module.exports = {
   lerExcel,

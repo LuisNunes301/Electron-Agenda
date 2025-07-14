@@ -7,11 +7,10 @@ contextBridge.exposeInMainWorld('api', {
   getContatos: () => ipcRenderer.invoke('getContatos'),
   deleteContato: (id) => ipcRenderer.invoke('deleteContato', id),
   updateContato: (contato) => ipcRenderer.invoke('updateContato', contato),
+
   escolherArquivoExcel: () => ipcRenderer.invoke('escolherArquivoExcel'),
-  importExcel: (filePath) => ipcRenderer.invoke('lerExcel', filePath),
-  exportarParaExcel: () => ipcRenderer.invoke('exportarParaExcel'),
-
-
+  importExcel: (filePath) => ipcRenderer.invoke('lerExcel', filePath), 
+  exportarParaExcel: () => ipcRenderer.invoke('exportarParaExcel')
 });
 
 contextBridge.exposeInMainWorld('electron', {

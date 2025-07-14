@@ -1,6 +1,6 @@
 const { ipcMain, dialog, app } = require('electron');
 const { getDatabase } = require('../database/sqlite');
-const { lerExcel, exportarParaExcel } = require('../utils/excel');
+const { lerExcel, exportarParaExcel } = require('../utils/excelutils');
 
 module.exports = function setupContatoHandlers() {
   const db = getDatabase();
@@ -71,5 +71,10 @@ module.exports = function setupContatoHandlers() {
 
   ipcMain.handle('lerExcel', (_, filePath) => lerExcel(filePath));
 
-  ipcMain.handle('exportarParaExcel', () => exportarParaExcel(db));
+  ipcMain.handle('exportarParaExcel', async () => {
+    return await exportarParaExcel(db);
+  });
+
+
+  
 };

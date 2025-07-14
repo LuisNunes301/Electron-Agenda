@@ -1,5 +1,5 @@
 const { initDatabase } = require('./database/sqlite');
-const setupContatoHandlers = require('./handlers/contatos');
+const setupContatoHandlers = require('./handlers/contatosHandlers');
 
 async function initializeApp() {
   await initDatabase();
