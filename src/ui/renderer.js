@@ -7,10 +7,11 @@ const tabela = document.querySelector('#tabelaContatos tbody');
 const filtro = document.getElementById('filtro');
 const sugestoes = document.getElementById('sugestoes');
 const cancelar = document.getElementById('cancelar');
-
-let todosContatos = [];
-
 const btnImportarExcel = document.getElementById('btnImportarExcel');
+let todosContatos = [];
+console.log("Elemento sugestões:", sugestoes);
+
+
 btnImportarExcel.onclick = async () => {
   const filePath = await window.api.escolherArquivoExcel();
   if (!filePath) {
@@ -112,12 +113,12 @@ function atualizarSugestoes(termo) {
 
   const unicos = [...new Set(encontrados)].slice(0, 10);
 
-  sugestoes.innerHTML = unicos.map(nome => `<li>${nome}</li>`).join('');
+sugestoes.innerHTML = unicos.map(nome => `<option value="${nome}"></option>`).join('');
 }
 
 sugestoes.addEventListener('click', (e) => {
-  if (e.target.tagName === 'LI') {
-    filtro.value = e.target.textContent;
+  if (e.target.tagName === 'OPTION') {
+    filtro.value = e.target.value;
     carregarContatos(); // Atualiza a tabela
     sugestoes.innerHTML = '';
   }

@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld('api', {
   importExcel: (filePath) => ipcRenderer.invoke('lerExcel', filePath),
   exportarParaExcel: () => ipcRenderer.invoke('exportarParaExcel'),
 
+
 });
 
 contextBridge.exposeInMainWorld('electron', {

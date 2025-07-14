@@ -175,7 +175,7 @@ form button#cancelar {
   margin-right: -5px;
 }
 
-
+/* tabela contatos */
 #tabelaContatos {
   width: 100%;
   border-collapse: collapse;
@@ -203,7 +203,7 @@ form button#cancelar {
   width: 90px;
   text-align: center;
 }
-
+/* tabela contatos fim */
 
 /* botoes */
 #btnNovo {
