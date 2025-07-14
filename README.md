@@ -19,23 +19,26 @@ Este é um aplicativo desktop de agenda de contatos, desenvolvido com **Electron
 
 ## Estrutura do Projeto
 
-The architecture is divided in a **modular** way, clearly separating responsibilities:
+A arquitetura é dividida de forma **modular**, separando claramente as responsabilidades:
 src/
 ```
 agenda-app/
 ├── electron/                # Processo principal do Electron
 │   ├── database/            # Banco de dados SQLite em memória (sql.js)
 │   ├── handlers/            # Handlers do ipcMain (comunicação)
-│   └── utils/               # Utilitários internos (Excel, etc)
+│   ├── utils/               # Utilitários internos (Excel, etc)
+│   ├── app.js               # Inicializacao dos modulos
+│   └── main.js              # Inicializa o app
 ├── preload/                 # Exposição segura de IPC para o renderer
 ├── renderer/                # Interface do usuário (UI + lógica)
 │   ├── api/                 # Wrapper da API do preload
 │   ├── assets/              # CSS e imagens
 │   ├── ui/                  # Lógica modularizada (painel, eventos, tabela...)
+│   ├── utils/               # Outras libs úteis (ex: sanitização)
 │   ├── index.html           # Página principal
-│   └── renderer.js          # Arquivo bootstrap do frontend
-├── utils/                   # Outras libs úteis (ex: sanitização)
+│   └── renderer.js          # Arquivo bootstrap do frontend             
 ├── package.json
+├── electron-builder.json
 └── README.md
 ```
 
