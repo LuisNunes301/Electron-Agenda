@@ -84,12 +84,12 @@ npm
 ```
 3. **Inicie o app :**
 ```bash
-    npm run start
+npm run start
 ```
 4. **Build**
 
 ```bash
-    npm run dist
+npm run dist
 ```
 ## O principal objetivo deste app é:
 
