@@ -9,8 +9,6 @@
     "src/electron/**/*",
     "src/preload/**/*",
     "src/renderer/**/*",
-    "src/utils/**/*",
-    "src/index.html",
     "db/**/*"
   ],
   "extraResources": [

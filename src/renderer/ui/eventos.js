@@ -1,4 +1,3 @@
-// renderer/ui/eventos.js
 import { abrirPainel, fecharPainel } from './painel.js';
 import { carregarContatos } from './tabela.js';
 import { atualizarSugestoes } from './sugestoes.js';

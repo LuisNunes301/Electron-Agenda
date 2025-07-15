@@ -1,6 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const isDev = require('electron-is-dev');
+const isDev = !app.isPackaged;
 const { initializeApp } = require('./app');
 
 if (!app.isPackaged) {
@@ -21,9 +21,7 @@ async function createWindow() {
     width: 1000,
     height: 700,
     webPreferences: {
-      preload: isDev
-        ? path.join(__dirname, '..', 'preload', 'preload.js')
-        : path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, '..', 'preload', 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false
     }
@@ -31,6 +29,16 @@ async function createWindow() {
 
   await initializeApp();
   win.loadFile(path.join(__dirname, '../renderer/index.html'));
+   win.on('closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
+  });
 }
 
 app.whenReady().then(createWindow);
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});

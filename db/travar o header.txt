@@ -1,6 +1,6 @@
-travar o header 
-exportar em excel o que tudo do bd 
-tipo2 para observacao
-dimensao de cada caixinha igual, quebrar sem ter que aumentar.
-linha do tamanho da fonte
-onde que o msi instala o app
+travar o header nao feito
+exportar em excel o que tudo do bd feito
+tipo2 para observacao feito
+dimensao de cada caixinha igual, quebrar sem ter que aumentar. feito
+linha do tamanho da fonte  feito
+onde que o msi instala o app feito

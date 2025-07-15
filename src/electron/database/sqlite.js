@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const initSqlJs = require('sql.js');
 const { app } = require('electron');
-const isDev = require('electron-is-dev');
+const isDev = !app.isPackaged;
 
 let db;
 

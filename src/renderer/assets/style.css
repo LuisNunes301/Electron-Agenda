@@ -4,6 +4,7 @@ body {
   margin: 0;
   background-color: #f5f5f5;
   color: #333;
+  overflow: hidden;
 }
 
 /* Cabeçalho */
@@ -28,31 +29,63 @@ header h1 {
   flex-grow: 1;
   max-width: 250px;
 }
-
-/* Tabela */
-
-main {
-  padding: 20px;
-  overflow-x: auto;
+header.win-nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #2f3e51;
+  padding: 9px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 45px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Main */
+main {
+  position: absolute;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-x: auto;
+
+}
+/* Main fim */
+
+/* Tabela */
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
-  background: white;
+  table-layout: fixed;
 }
 
-th {
-  background: #3498db;
+thead th {
+  position: sticky;
+  top: 0;
+  background-color: #3498db;
   color: white;
-  padding: 8px;
-  text-align: left;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  z-index: 5;
+  white-space: nowrap;
 }
 
-tr:nth-child(even) {
-  background: #f2f2f2;
+tbody td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+  background-color: white;
 }
+
+tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
 /* Tabela fim*/
 
 
@@ -60,20 +93,24 @@ tr:nth-child(even) {
 /* Painel lateral */
 #painel {
   position: fixed;
-  top: 0;
+  top: 60px;
   right: -420px;
   width: 400px;
   height: 100%;
+  transform: translateX(100%);
   background: white;
   border-left: 1px solid #ccc;
   padding: 20px;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
   transition: right 0.3s ease;
   z-index: 1000;
+  display: none;
 }
 
 #painel.ativo {
   right: 0;
+  display: block;
+  transform: translateX(0);
 }
 
 #painel h2 {

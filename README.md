@@ -20,7 +20,7 @@ Este é um aplicativo desktop de agenda de contatos, desenvolvido com **Electron
 ## Estrutura do Projeto
 
 A arquitetura é dividida de forma **modular**, separando claramente as responsabilidades:
-src/
+
 ```
 agenda-app/
 ├── electron/                # Processo principal do Electron
