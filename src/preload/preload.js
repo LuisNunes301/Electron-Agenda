@@ -4,13 +4,14 @@ console.log("Preload carregado");
 
 contextBridge.exposeInMainWorld('api', {
   addContato: (contato) => ipcRenderer.invoke('addContato', contato),
-  getContatos: () => ipcRenderer.invoke('getContatos'),
+  getContatos: (params) => ipcRenderer.invoke('getContatos', params),
   deleteContato: (id) => ipcRenderer.invoke('deleteContato', id),
   updateContato: (contato) => ipcRenderer.invoke('updateContato', contato),
 
   escolherArquivoExcel: () => ipcRenderer.invoke('escolherArquivoExcel'),
   importExcel: (filePath) => ipcRenderer.invoke('lerExcel', filePath), 
-  exportarParaExcel: () => ipcRenderer.invoke('exportarParaExcel')
+  exportarParaExcel: () => ipcRenderer.invoke('exportarParaExcel'),
+  deleteAllContatos: () => ipcRenderer.invoke('deleteAllContatos')
 });
 
 contextBridge.exposeInMainWorld('electron', {

@@ -22,11 +22,16 @@
   <header class="win-nav-bar">
     <div class="win-nav-bar-left" style="display: flex; align-items: center; gap: 10px;">
       <h1 class="text-xl font-bold">Agenda</h1>
-      <button id="btnNovo" class="win-button btn-primary">+ Novo Contato</button>
-      <input list="sugestoes" type="text" id="filtro" class="win-textbox" placeholder="Buscar por nome..." />
-      <datalist id="sugestoes"></datalist>
-      <button id="btnImportarExcel" class="win-button btn-secondary">📁 Importar Excel</button>
-      <button id="btnExportarExcel" class="win-button btn-secondary">⬇ Exportar Excel</button>
+      <button id="btnNovo" class="win-button btn-primary">Novo Contato</button>
+      <input list="sugestoesFornecedor" type="search" id="filtroFornecedor" class="win-textbox" placeholder="Buscar por Fornecedor..." />
+      <datalist id="sugestoesFornecedor"></datalist>
+      <input list="sugestoesTipo1" type="search" id="filtroTipo1" class="win-textbox" placeholder="Buscar por Tipo 1..." />
+      <datalist id="sugestoesTipo1"></datalist>
+      <input list="sugestoesTipo2" type="search" id="filtroTipo2" class="win-textbox" placeholder="Buscar por Tipo 2..." />
+      <datalist id="sugestoesTipo2"></datalist>
+      <button id="btnImportarExcel" class="win-button btn-secondary">Importar Excel</button>
+      <button id="btnExportarExcel" class="win-button btn-secondary">Exportar Excel</button>
+      <button id="btnApagarTodos" class="win-button">Apagar Tudo</button>
     </div>
   </header>
 
@@ -54,6 +59,19 @@
       </thead>
       <tbody></tbody>
     </table>
+    <div class="pagination-container">
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <label for="selectPageSize">Exibir:</label>
+          <select id="selectPageSize" class="win-dropdown" style="padding: 2px 5px; border-radius: 4px;">
+            <option value="20">20</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <button id="btnPrev" class="win-button">Anterior</button>
+        <span id="pageInfo">Página 1 de 1</span>
+        <button id="btnNext" class="win-button">Próxima</button>
+    </div>
   </main>
 
   <aside id="painel">

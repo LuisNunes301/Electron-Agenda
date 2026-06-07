@@ -35,8 +35,18 @@ async function initDatabase() {
         tipo2 TEXT
       );
     `);
-    saveDatabase(dbPath);
   }
+
+  // Otimizações de performance para o motor SQLite
+  db.run("PRAGMA journal_mode = MEMORY;");
+  db.run("PRAGMA synchronous = OFF;");
+
+  // Criação de índices para acelerar pesquisas nos campos filtrados
+  db.run("CREATE INDEX IF NOT EXISTS idx_contatos_nome ON contatos(nome);");
+  db.run("CREATE INDEX IF NOT EXISTS idx_contatos_tipo ON contatos(tipo);");
+  db.run("CREATE INDEX IF NOT EXISTS idx_contatos_tipo2 ON contatos(tipo2);");
+
+  saveDatabase(dbPath);
 
   app.on('before-quit', () => saveDatabase(dbPath));
 }

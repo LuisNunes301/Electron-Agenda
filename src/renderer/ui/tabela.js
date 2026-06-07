@@ -3,20 +3,37 @@ import { abrirPainel } from './painel.js';
 import { atualizarSugestoes } from './sugestoes.js';
 import { escapeHTML } from '../utils/sanitize.js';
 
+let currentPage = 1;
+let pageSize = 50;
+
 export async function carregarContatos() {
-  const { values } = await window.api.getContatos();
   const tabela = document.querySelector('#tabelaContatos tbody');
-  const filtro = document.getElementById('filtro');
-  const termo = filtro.value.trim().toLowerCase();
-  const todosContatos = values;
+  const filtroFornecedor = document.getElementById('filtroFornecedor');
+  const filtroTipo1 = document.getElementById('filtroTipo1');
+  const filtroTipo2 = document.getElementById('filtroTipo2');
 
-  const resultados = termo
-    ? todosContatos.filter(c => c[1]?.toLowerCase().includes(termo))
-    : todosContatos;
+  const termoFornecedor = filtroFornecedor?.value.trim().toLowerCase() || '';
+  const termoTipo1 = filtroTipo1?.value.trim().toLowerCase() || '';
+  const termoTipo2 = filtroTipo2?.value.trim().toLowerCase() || '';
 
-  tabela.innerHTML = resultados.map((c, index) => `
+  // Busca paginada e filtrada do "servidor" (Main Process)
+  const { values, totalCount } = await window.api.getContatos({
+    page: currentPage,
+    pageSize,
+    termoFornecedor,
+    termoTipo1,
+    termoTipo2
+  });
+
+  const totalPages = Math.ceil(totalCount / pageSize) || 1;
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  // Atualiza indicadores de página
+  document.getElementById('pageInfo').innerText = `Página ${currentPage} de ${totalPages} (${totalCount} contatos)`;
+
+  tabela.innerHTML = values.map((c, index) => `
     <tr>
-      <td>${index + 1}</td><td>${escapeHTML(c[1]) || ''}</td> <td>${(c[2]) || ''}</td> <td>${escapeHTML(c[3]) || ''}</td>
+      <td>${((currentPage - 1) * pageSize) + index + 1}</td><td>${escapeHTML(c[1]) || ''}</td> <td>${(c[2]) || ''}</td> <td>${escapeHTML(c[3]) || ''}</td>
       <td>${escapeHTML(c[4]) || ''}</td> <td>${escapeHTML(c[5]) || ''}</td> <td>${escapeHTML(c[6]) || ''}</td>
       <td>${escapeHTML(c[9]) || ''}</td> <td>${escapeHTML(c[10]) || ''}</td> <td>${escapeHTML(c[7]) || ''}</td>
       <td>${escapeHTML(c[8]) || ''}</td>
@@ -27,9 +44,28 @@ export async function carregarContatos() {
     </tr>
   `).join('');
 
-  window.todosContatos = todosContatos;
+  window.todosContatos = values; // Para sugestões e edição
   atualizarSugestoes();
 }
+
+export function setPage(page) {
+  currentPage = page;
+  carregarContatos();
+}
+
+export function setPageSize(size) {
+  pageSize = parseInt(size, 10);
+  currentPage = 1;
+  carregarContatos();
+}
+
+export function changePage(delta) {
+  currentPage += delta;
+  if (currentPage < 1) currentPage = 1;
+  carregarContatos();
+}
+
+window.resetPage = () => { currentPage = 1; };
 
 // Exportar funções globais para usar inline nos botões
 window.editar = async (id) => {
@@ -55,6 +91,13 @@ window.editar = async (id) => {
 window.deletar = async (id) => {
   if (confirm("Deseja remover este contato?")) {
     await window.api.deleteContato(id);
+    await carregarContatos();
+  }
+};
+
+window.deletarTodos = async () => {
+  if (confirm("ATENÇÃO: Você tem certeza que deseja apagar TODOS os contatos? Esta ação não pode ser desfeita.")) {
+    await window.api.deleteAllContatos();
     await carregarContatos();
   }
 };

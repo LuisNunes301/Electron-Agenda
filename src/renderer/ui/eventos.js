@@ -1,16 +1,24 @@
 import { abrirPainel, fecharPainel } from './painel.js';
-import { carregarContatos } from './tabela.js';
+import { carregarContatos, changePage, setPageSize } from './tabela.js';
 import { atualizarSugestoes } from './sugestoes.js';
 
 export function configurarEventos() {
   const btnNovo = document.getElementById('btnNovo');
   const painel = document.getElementById('painel');
   const form = document.getElementById('formulario');
-  const filtro = document.getElementById('filtro');
-  const sugestoes = document.getElementById('sugestoes');
+  const filtroFornecedor = document.getElementById('filtroFornecedor');
+  const filtroTipo1 = document.getElementById('filtroTipo1');
+  const filtroTipo2 = document.getElementById('filtroTipo2');
+  const sugestoesFornecedor = document.getElementById('sugestoesFornecedor');
+  const sugestoesTipo1 = document.getElementById('sugestoesTipo1');
+  const sugestoesTipo2 = document.getElementById('sugestoesTipo2');
   const btnImportarExcel = document.getElementById('btnImportarExcel');
   const btnExportarExcel = document.getElementById('btnExportarExcel');
+  const btnApagarTodos = document.getElementById('btnApagarTodos');
   const cancelar = document.getElementById('cancelar');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  const selectPageSize = document.getElementById('selectPageSize');
 
   btnNovo.onclick = () => {
     form.reset();
@@ -50,21 +58,61 @@ export function configurarEventos() {
     if (path) alert(`Exportado para: ${path}`);
   };
 
-  filtro.oninput = async () => {
+  btnApagarTodos.onclick = async () => {
+    await window.deletarTodos();
+  };
+
+  btnPrev.onclick = () => changePage(-1);
+  btnNext.onclick = () => changePage(1);
+
+  selectPageSize.onchange = () => {
+    setPageSize(selectPageSize.value);
+  };
+
+  filtroFornecedor.oninput = async () => {
+    window.resetPage();
     await carregarContatos();
     atualizarSugestoes();
   };
 
-  sugestoes.addEventListener('click', (e) => {
+  filtroTipo1.oninput = async () => {
+    window.resetPage();
+    await carregarContatos();
+    atualizarSugestoes();
+  };
+
+  filtroTipo2.oninput = async () => {
+    window.resetPage();
+    await carregarContatos();
+    atualizarSugestoes();
+  };
+
+  sugestoesFornecedor.addEventListener('click', (e) => {
     if (e.target.tagName === 'OPTION') {
-      filtro.value = e.target.value;
+      filtroFornecedor.value = e.target.value;
+      carregarContatos();
+    }
+  });
+
+  sugestoesTipo1.addEventListener('click', (e) => {
+    if (e.target.tagName === 'OPTION') {
+      filtroTipo1.value = e.target.value;
+      carregarContatos();
+    }
+  });
+
+  sugestoesTipo2.addEventListener('click', (e) => {
+    if (e.target.tagName === 'OPTION') {
+      filtroTipo2.value = e.target.value;
       carregarContatos();
     }
   });
 
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-wrapper')) {
-      sugestoes.innerHTML = '';
+    if (!e.target.closest('.search-wrapper') && !e.target.closest('datalist')) {
+      if (sugestoesFornecedor) sugestoesFornecedor.innerHTML = '';
+      if (sugestoesTipo1) sugestoesTipo1.innerHTML = '';
+      if (sugestoesTipo2) sugestoesTipo2.innerHTML = '';
     }
   });
 }

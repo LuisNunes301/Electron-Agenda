@@ -5,13 +5,24 @@ const { lerExcel, exportarParaExcel } = require('../utils/excelutils');
 module.exports = function setupContatoHandlers() {
   const db = getDatabase();
 
-  ipcMain.handle('getContatos', () => {
-    const stmt = db.prepare('SELECT * FROM contatos');
-    const values = [];
-    while (stmt.step()) {
-      values.push(stmt.get());
-    }
-    return { values };
+  ipcMain.handle('getContatos', (_, { page = 1, pageSize = 50, termoFornecedor = '', termoTipo1 = '', termoTipo2 = '' }) => {
+    const offset = (page - 1) * pageSize;
+    
+    // Filtros SQL usando LIKE para busca parcial
+    const sqlWhere = `
+      WHERE (nome LIKE ?) 
+      AND (tipo LIKE ?) 
+      AND (tipo2 LIKE ?)
+    `;
+    const params = [`%${termoFornecedor}%`, `%${termoTipo1}%`, `%${termoTipo2}%` ];
+
+    const result = db.exec(`SELECT * FROM contatos ${sqlWhere} LIMIT ${pageSize} OFFSET ${offset}`, params);
+    const countResult = db.exec(`SELECT COUNT(*) FROM contatos ${sqlWhere}`, params);
+
+    const values = result.length > 0 ? result[0].values : [];
+    const totalCount = countResult.length > 0 ? countResult[0].values[0][0] : 0;
+
+    return { values, totalCount };
   });
 
   ipcMain.handle('addContato', (_, contato) => {
@@ -57,6 +68,11 @@ module.exports = function setupContatoHandlers() {
 
   ipcMain.handle('deleteContato', (_, id) => {
     db.run(`DELETE FROM contatos WHERE id = ?`, [id]);
+  });
+
+  // Handler para apagar todos os contatos
+  ipcMain.handle('deleteAllContatos', () => {
+    db.run(`DELETE FROM contatos`);
   });
 
   ipcMain.handle('escolherArquivoExcel', async () => {
